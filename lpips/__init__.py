@@ -71,8 +71,9 @@ def load_image(path,size=None):
             img = raw.postprocess()
     elif(path[-3:]=='bmp' or path[-3:]=='jpg' or path[-3:]=='png' or path[-4:]=='jpeg'):
         import cv2
-        if size==None: return cv2.imread(path)[:,:,::-1]
-        else: cv2.resize(cv2.imread(path)[:,:,::-1],size)
+        img = cv2.imread(path)[:,:,::-1]
+        if size==None: return img
+        else: cv2.resize(img,size)
     else:
         import matplotlib.pyplot as plt        
         img = (255*plt.imread(path)[:,:,:3]).astype('uint8')
