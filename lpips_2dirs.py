@@ -31,11 +31,11 @@ for file in files:
 		if(opt.use_gpu):
 			img0 = img0.cuda()
 			img1 = img1.cuda()
-        print(img0.shape,img1.shape)
+            print(img0.shape,img1.shape)
 
 		# Compute distance
 		dist01 = loss_fn.forward(img0,img1)
 		print('%s: %.3f'%(file,dist01))
 		f.writelines('%s: %.6f\n'%(file,dist01))
 
-f.close()
+# f.close()
