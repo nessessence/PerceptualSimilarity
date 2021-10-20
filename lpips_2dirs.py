@@ -21,8 +21,9 @@ if __name__ == "__main__":
     # crawl directories
     f = open(opt.out,'w')
     files = os.listdir(opt.dir0)
-
-    for file in files:
+    
+    sum = 0 
+    for file in files:  
         if(os.path.exists(os.path.join(opt.dir1,f"{file.split('.')[0]}.png" ) )):
             # Load images
             img0 = lpips.im2tensor(lpips.load_image(os.path.join(opt.dir0,file),opt.size)) # RGB image from [-1,1]
@@ -34,7 +35,11 @@ if __name__ == "__main__":
 
             # Compute distance
             dist01 = loss_fn.forward(img0,img1)
+            sum += dist01
             print('%s: %.3f'%(file,dist01))
             f.writelines('%s: %.6f\n'%(file,dist01))
+    print(f'avg: {sum/len(files)}')
+    f.writelines(f'sum:{sum}')
+    f.writelines(f'avg:{sum/len(files)}')
 
     f.close()
