@@ -1,6 +1,7 @@
 import argparse
 import os
 import lpips
+from tqdm import tqdm
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-d0','--dir0', type=str, default='./imgs/ex_dir0')
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     files = os.listdir(opt.dir0)
     
     sum = 0 
-    for file in files:  
+    for i,file in tqdm(enumerate(files)):  
         if(os.path.exists(os.path.join(opt.dir1,f"{file.split('.')[0]}.png" ) )):
             # Load images
             img0 = lpips.im2tensor(lpips.load_image(os.path.join(opt.dir0,file),opt.size)) # RGB image from [-1,1]
@@ -36,7 +37,9 @@ if __name__ == "__main__":
             # Compute distance
             dist01 = loss_fn.forward(img0,img1)
             sum += dist01
-            print('%s: %.3f'%(file,dist01))
+            print(f'avg: {sum/(i+1)}')
+            # print('%s: %.3f'%(file,dist01))
+
             f.writelines('%s: %.6f\n'%(file,dist01))
     print(f'avg: {sum/len(files)}')
     f.writelines(f'sum:{sum}')
