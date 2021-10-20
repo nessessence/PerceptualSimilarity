@@ -1,6 +1,7 @@
 import argparse
 import os
 import lpips
+import torch
 from tqdm import tqdm
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -35,8 +36,9 @@ if __name__ == "__main__":
                 img1 = img1.cuda()
 
             # Compute distance
-            dist01 = loss_fn.forward(img0,img1)
-            sum += dist01
+            with torch.no_grad():
+                dist01 = loss_fn.forward(img0,img1).item()
+                sum += dist01
             print(f'avg: {sum/(i+1)}')
             # print('%s: %.3f'%(file,dist01))
 
