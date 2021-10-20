@@ -64,14 +64,15 @@ def tensorlab2tensor(lab_tensor,return_inbnd=False):
     else:
         return im2tensor(rgb_back)
 
-def load_image(path):
+def load_image(path,size=None):
     if(path[-3:] == 'dng'):
         import rawpy
         with rawpy.imread(path) as raw:
             img = raw.postprocess()
     elif(path[-3:]=='bmp' or path[-3:]=='jpg' or path[-3:]=='png' or path[-4:]=='jpeg'):
         import cv2
-        return cv2.imread(path)[:,:,::-1]
+        if size==None: return cv2.imread(path)[:,:,::-1]
+        else: cv2.resize(cv2.imread(path)[:,:,::-1],size)
     else:
         import matplotlib.pyplot as plt        
         img = (255*plt.imread(path)[:,:,:3]).astype('uint8')

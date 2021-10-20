@@ -7,6 +7,8 @@ parser.add_argument('-d0','--dir0', type=str, default='./imgs/ex_dir0')
 parser.add_argument('-d1','--dir1', type=str, default='./imgs/ex_dir1')
 parser.add_argument('-o','--out', type=str, default='./imgs/example_dists.txt')
 parser.add_argument('-v','--version', type=str, default='0.1')
+parser.add_argument('-size', type=int, default=256)
+
 parser.add_argument('--use_gpu', action='store_true', help='turn on flag to use GPU')
 
 opt = parser.parse_args()
@@ -21,10 +23,10 @@ f = open(opt.out,'w')
 files = os.listdir(opt.dir0)
 
 for file in files:
-	if(os.path.exists(os.path.join(opt.dir1,file))):
+	if(os.path.exists(os.path.join(opt.dir1,f"{file.split('.')[0]}.png" ) )):
 		# Load images
 		img0 = lpips.im2tensor(lpips.load_image(os.path.join(opt.dir0,file))) # RGB image from [-1,1]
-		img1 = lpips.im2tensor(lpips.load_image(os.path.join(opt.dir1,file)))
+		img1 = lpips.im2tensor(lpips.load_image(os.path.join(opt.dir1,f"{file.split('.')[0]}.png")),opt.size)
 
 		if(opt.use_gpu):
 			img0 = img0.cuda()
