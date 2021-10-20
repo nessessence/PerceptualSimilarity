@@ -73,7 +73,8 @@ def load_image(path,size=None):
         import cv2
         img = cv2.imread(path)[:,:,::-1]
         if size==None: return img
-        else: cv2.resize(img,(size,size))
+        else: return cv2.resize(img,(size,size))
+
     else:
         import matplotlib.pyplot as plt        
         img = (255*plt.imread(path)[:,:,:3]).astype('uint8')

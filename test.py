@@ -25,7 +25,7 @@ if __name__ == "__main__":
     for file in files:
         if(os.path.exists(os.path.join(opt.dir1,f"{file.split('.')[0]}.png" ) )):
             # Load images
-            img0 = lpips.im2tensor(lpips.load_image(os.path.join(opt.dir0,file,),opt.size)) # RGB image from [-1,1]
+            img0 = lpips.im2tensor(lpips.load_image(os.path.join(opt.dir0,file),opt.size)) # RGB image from [-1,1]
             img1 = lpips.im2tensor(lpips.load_image(os.path.join(opt.dir1,f"{file.split('.')[0]}.png"),opt.size))
 
             if(opt.use_gpu):
